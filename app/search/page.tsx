@@ -1,0 +1,1 @@
+.vercel app app/(app) app/auth app/globals.css app/layout.tsx components lib lib/supabase lib/config.ts lib/format.ts lib/queries.ts lib/server-data.ts lib/types.ts lib/utils.ts public scripts .env.development.local .env.example .gitignore components.json middleware.ts next-env.d.ts next.config.mjs package.json pnpm-lock.yaml postcss.config.mjs tsconfig.json
