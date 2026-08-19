@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { PenSquare } from 'lucide-react'
+import { PenSquare, Video } from 'lucide-react'
 import { getCurrentProfile } from '@/lib/server-data'
 import { getFeed } from '@/lib/queries'
 import { PostCard } from '@/components/post-card'
@@ -53,13 +53,22 @@ export default async function HomePage({
             <p className="mt-1 text-sm text-muted-foreground">
               İlk gönderiyi sen paylaş!
             </p>
-            <Link
-              href="/create"
-              className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
-            >
-              <PenSquare className="size-4" />
-              Gönderi oluştur
-            </Link>
+            <div className="mt-4 flex flex-wrap justify-center gap-2">
+              <Link
+                href="/create"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
+              >
+                <PenSquare className="size-4" />
+                Gönderi oluştur
+              </Link>
+              <Link
+                href="/create?type=video"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
+              >
+                <Video className="size-4" />
+                Video paylaş
+              </Link>
+            </div>
           </div>
         ) : (
           posts.map((post) => <PostCard key={post.id} post={post} me={meLite} />)
