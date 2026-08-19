@@ -1,4 +1,3 @@
-```tsx
 import { redirect } from "next/navigation"
 import { getCurrentProfile } from "@/lib/server-data"
 import { createClient } from "@/lib/supabase/server"
@@ -70,3 +69,4 @@ export default async function ReportsPage() {
     </main>
   )
 }
+
