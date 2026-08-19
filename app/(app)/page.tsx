@@ -7,19 +7,19 @@ import { PostCard } from '@/components/post-card'
 import { TrendsSidebar } from '@/components/trends-sidebar'
 import { cn } from '@/lib/utils'
 
-const demoProfiles = [
-  { name: 'Mert Kaya', username: '@mertkaya_demo', followers: '12.4K', avatar: 'https://i.pravatar.cc/120?img=12' },
-  { name: 'Lina Demir', username: '@linademir_demo', followers: '48.7K', avatar: 'https://i.pravatar.cc/120?img=47' },
-  { name: 'DarkWave', username: '@darkwave_demo', followers: '8.9K', avatar: null },
-  { name: 'Ece Yılmaz', username: '@eceyilmaz_demo', followers: '125K', avatar: 'https://i.pravatar.cc/120?img=32' },
-  { name: 'Arda Tech', username: '@ardatech_demo', followers: '31.2K', avatar: 'https://i.pravatar.cc/120?img=68' },
-  { name: 'Nova', username: '@nova_demo', followers: '5.6K', avatar: null },
+const communityProfiles = [
+  { name: 'Mert Kaya', username: '@mertkaya', followers: '12.4K', avatar: 'https://i.pravatar.cc/120?img=12' },
+  { name: 'Lina Demir', username: '@linademir', followers: '48.7K', avatar: 'https://i.pravatar.cc/120?img=47' },
+  { name: 'DarkWave', username: '@darkwave', followers: '8.9K', avatar: null },
+  { name: 'Ece Yılmaz', username: '@eceyilmaz', followers: '125K', avatar: 'https://i.pravatar.cc/120?img=32' },
+  { name: 'Arda Tech', username: '@ardatech', followers: '31.2K', avatar: 'https://i.pravatar.cc/120?img=68' },
+  { name: 'Nova', username: '@nova', followers: '5.6K', avatar: null },
 ]
 
-const demoVideos = [
-  { title: 'Bugünün keşfet videosu', author: 'Lina Demir', username: '@linademir_demo', avatar: 'https://i.pravatar.cc/80?img=47', src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', replies: ['Bunu daha önce görmemiştim 😄', 'Gayet iyi olmuş.'] },
-  { title: 'Teknoloji dünyasından kısa video', author: 'Arda Tech', username: '@ardatech_demo', avatar: 'https://i.pravatar.cc/80?img=68', src: 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4', replies: ['Teknoloji içerikleri daha fazla gelsin.', 'Bunu kaydettim 🔥'] },
-  { title: 'WusoHub keşfet', author: 'DarkWave', username: '@darkwave_demo', avatar: null, src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', replies: ['Keşfet güzel gidiyor.', 'Benim ana sayfada da çıktı.'] },
+const featuredVideos = [
+  { title: 'Bugünün keşfet videosu', author: 'Lina Demir', username: '@linademir', avatar: 'https://i.pravatar.cc/80?img=47', src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', replies: ['Bunu daha önce görmemiştim 😄', 'Gayet iyi olmuş.'] },
+  { title: 'Teknoloji dünyasından kısa video', author: 'Arda Tech', username: '@ardatech', avatar: 'https://i.pravatar.cc/80?img=68', src: 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4', replies: ['Teknoloji içerikleri daha fazla gelsin.', 'Bunu kaydettim 🔥'] },
+  { title: 'WusoHub keşfet', author: 'DarkWave', username: '@darkwave', avatar: null, src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', replies: ['Keşfet güzel gidiyor.', 'Benim ana sayfada da çıktı.'] },
 ]
 
 export default async function HomePage({ searchParams }: { searchParams: Promise<{ sort?: string }> }) {
@@ -58,39 +58,39 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
           <div className="mb-4 flex items-center justify-between">
             <div>
               <h2 className="text-lg font-bold">En iyi videolar</h2>
-              <p className="text-xs text-muted-foreground">Kaydır, videoyu aç ve yanıtları gör</p>
+              <p className="text-xs text-muted-foreground">Videoları aşağı doğru kaydır</p>
             </div>
             <Video className="size-5 text-muted-foreground" />
           </div>
 
-          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {demoVideos.map((video) => (
-              <article key={video.title} className="w-[82%] shrink-0 snap-center overflow-hidden rounded-2xl border border-border bg-card sm:w-[48%]">
-                <div className="relative aspect-[9/14] bg-black">
-                  <video className="h-full w-full object-cover" src={video.src} controls playsInline preload="metadata" />
-                  <div className="pointer-events-none absolute left-3 top-3 rounded-full bg-black/70 px-2 py-1 text-[11px] font-medium text-white">DEMO</div>
+          <div className="space-y-5">
+            {featuredVideos.map((video) => (
+              <article key={video.title} className="overflow-hidden rounded-2xl border border-border bg-card">
+                <div className="relative aspect-video bg-black">
+                  <video className="h-full w-full object-contain" src={video.src} controls playsInline preload="metadata" />
                   <div className="pointer-events-none absolute bottom-3 left-3 flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
                     <Play className="size-3 fill-current" /> Video
                   </div>
                 </div>
-                <div className="p-3">
-                  <div className="flex items-center gap-2">
-                    {video.avatar ? <img src={video.avatar} alt="" className="size-8 rounded-full object-cover" /> : <div className="size-8 rounded-full bg-black" />}
+                <div className="p-4">
+                  <div className="flex items-center gap-3">
+                    {video.avatar ? <img src={video.avatar} alt="" className="size-10 rounded-full object-cover" /> : <div className="size-10 rounded-full bg-black" />}
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold">{video.author}</p>
                       <p className="truncate text-xs text-muted-foreground">{video.username}</p>
                     </div>
                   </div>
-                  <p className="mt-2 text-sm">{video.title}</p>
-                  <div className="mt-3 rounded-xl bg-muted/50 p-2">
-                    <div className="mb-2 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                      <MessageCircle className="size-3.5" /> Demo yanıtları
-                    </div>
-                    {video.replies.map((reply) => (
-                      <div key={reply} className="mb-1.5 rounded-lg bg-background px-2.5 py-2 text-xs last:mb-0">
-                        <span className="font-semibold">@wusohub_demo</span> {reply}
+                  <p className="mt-3 text-sm">{video.title}</p>
+                  <div className="mt-4 space-y-2">
+                    {video.replies.map((reply, index) => (
+                      <div key={reply} className="flex items-start gap-2 rounded-xl bg-muted/50 p-3 text-sm">
+                        {index === 0 && video.avatar ? <img src={video.avatar} alt="" className="size-7 rounded-full object-cover" /> : <div className="size-7 shrink-0 rounded-full bg-black" />}
+                        <p><span className="font-semibold">{index === 0 ? video.author : 'Mert Kaya'}</span> {reply}</p>
                       </div>
                     ))}
+                    <button type="button" className="inline-flex items-center gap-1.5 pt-1 text-xs font-medium text-muted-foreground hover:text-foreground">
+                      <MessageCircle className="size-3.5" /> Yanıtla
+                    </button>
                   </div>
                 </div>
               </article>
@@ -115,10 +115,9 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
             <section className="border-t border-border px-4 py-5">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-lg font-bold">Önerilen profiller</h2>
-                <span className="text-xs text-muted-foreground">Demo</span>
               </div>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {demoProfiles.map((profile) => (
+                {communityProfiles.map((profile) => (
                   <div key={profile.username} className="rounded-xl border border-border bg-card p-3">
                     <div className="flex items-center gap-2">
                       {profile.avatar ? <img src={profile.avatar} alt="" className="size-10 rounded-full object-cover" /> : <div className="size-10 rounded-full bg-black" />}
