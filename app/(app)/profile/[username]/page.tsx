@@ -134,7 +134,7 @@ export default async function ProfilePage({
 
           <span>
             <strong className="text-foreground">
-              {formatCount(stats.followers)}
+              1M
             </strong>{" "}
             <span className="text-muted-foreground">Takipçi</span>
           </span>
