@@ -36,10 +36,47 @@
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   --radius: 0.75rem;
 
-  /* Premium dark navy */
+  /* Premium light */
+  --background: oklch(0.98 0.005 250);
+  --foreground: oklch(0.18 0.025 260);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.025 260);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.025 260);
+
+  --primary: oklch(0.55 0.18 258);
+  --primary-foreground: oklch(0.99 0.005 250);
+
+  --secondary: oklch(0.94 0.015 260);
+  --secondary-foreground: oklch(0.22 0.025 260);
+
+  --muted: oklch(0.94 0.015 260);
+  --muted-foreground: oklch(0.48 0.025 258);
+
+  --accent: oklch(0.93 0.025 260);
+  --accent-foreground: oklch(0.18 0.025 260);
+
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: oklch(0.99 0.005 250);
+
+  --border: oklch(0.88 0.02 260);
+  --input: oklch(0.88 0.02 260);
+  --ring: oklch(0.55 0.18 258);
+
+  --silver: oklch(0.55 0.015 258);
+  --verified: oklch(0.58 0.15 245);
+  --founder: oklch(0.58 0.23 25);
+}
+
+/* Koyu tema */
+.dark {
+  color-scheme: dark;
+
   --background: oklch(0.17 0.03 260);
   --foreground: oklch(0.96 0.005 250);
 
@@ -49,7 +86,6 @@
   --popover: oklch(0.21 0.035 262);
   --popover-foreground: oklch(0.96 0.005 250);
 
-  /* Blue accent */
   --primary: oklch(0.62 0.18 258);
   --primary-foreground: oklch(0.99 0.005 250);
 
@@ -69,11 +105,8 @@
   --input: oklch(0.3 0.03 262);
   --ring: oklch(0.62 0.18 258);
 
-  /* Silver accent */
   --silver: oklch(0.82 0.015 258);
-  /* Verified blue badge */
   --verified: oklch(0.68 0.15 245);
-  /* Founder red */
   --founder: oklch(0.63 0.23 25);
 }
 
@@ -81,6 +114,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -90,6 +124,7 @@
   .auth-input {
     @apply h-10 rounded-lg border border-input bg-background px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/40;
   }
+
   .field-input {
     @apply w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/40;
   }
