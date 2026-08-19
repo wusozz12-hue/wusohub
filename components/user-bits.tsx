@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { VerifiedBadge, FounderLabel } from '@/components/brand'
+import { VerifiedBadge, PremiumLabel, FounderLabel } from '@/components/brand'
 import type { Profile } from '@/lib/types'
 
 const SIZES = {
@@ -53,17 +53,21 @@ export function UserName({
 }: {
   profile: Pick<
     Profile,
-    'username' | 'display_name' | 'is_verified' | 'is_founder'
+    'username' | 'display_name' | 'is_verified' | 'is_founder' | 'is_premium' | 'premium_until'
   >
   className?: string
   withLink?: boolean
   showHandle?: boolean
 }) {
   const name = profile.display_name || profile.username
+  const premiumActive = Boolean(
+    profile.is_premium && (!profile.premium_until || new Date(profile.premium_until) > new Date()),
+  )
   const inner = (
     <span className="inline-flex items-center gap-1.5">
       <span className="truncate font-semibold text-foreground">{name}</span>
       {profile.is_verified && <VerifiedBadge />}
+      {premiumActive && <PremiumLabel />}
       {profile.is_founder && <FounderLabel />}
     </span>
   )
