@@ -1,73 +1,26 @@
-"use client"
+import Link from "next/link"
+import { redirect } from "next/navigation"
+import { getCurrentProfile } from "@/lib/server-data"
+import { createClient } from "@/lib/supabase/server"
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { createClient } from "@/lib/supabase/client"
+export default async function ReportsPage() {
+const profile = await getCurrentProfile()
 
-type Report = {
-id: string
-reporter_id: string
-target_type: "post" | "user"
-target_post_id: string | null
-target_user_id: string | null
-reason: string
-status: "open" | "reviewed" | "resolved"
-created_at: string
+if (!profile) {
+redirect("/auth/login")
 }
 
-export default function ReportsPage() {
-const router = useRouter()
-const [reports, setReports] = useState<Report[]>([])
-const [loading, setLoading] = useState(true)
-const [busy, setBusy] = useState<string | null>(null)
-
-useEffect(() => {
-loadReports()
-}, [])
-
-async function loadReports() {
-const supabase = createClient()
-
-```
-const { data } = await supabase
-  .from("reports")
-  .select("*")
-  .order("created_at", { ascending: false })
-  .limit(100)
-
-setReports((data ?? []) as Report[])
-setLoading(false)
-```
-
+if (!profile.is_founder) {
+redirect("/")
 }
 
-async function updateStatus(
-id: string,
-status: "open" | "reviewed" | "resolved",
-) {
-setBusy(id)
+const supabase = await createClient()
 
-```
-const supabase = createClient()
-
-const { error } = await supabase
-  .from("reports")
-  .update({ status })
-  .eq("id", id)
-
-if (!error) {
-  setReports((current) =>
-    current.map((report) =>
-      report.id === id ? { ...report, status } : report,
-    ),
-  )
-  router.refresh()
-}
-
-setBusy(null)
-```
-
-}
+const { data: reports, error } = await supabase
+.from("reports")
+.select("*")
+.order("created_at", { ascending: false })
+.limit(100)
 
 return ( <main className="mx-auto w-full max-w-5xl px-4 py-8"> <h1 className="text-3xl font-bold">Raporlar</h1>
 
@@ -76,20 +29,23 @@ return ( <main className="mx-auto w-full max-w-5xl px-4 py-8"> <h1 className="te
     Kullanıcılar tarafından gönderilen raporlar.
   </p>
 
-  <div className="mt-8 space-y-4">
-    {loading ? (
-      <div className="rounded-xl border border-border p-8 text-center">
-        Yükleniyor...
-      </div>
-    ) : reports.length === 0 ? (
-      <div className="rounded-xl border border-border p-8 text-center">
-        <p className="font-medium">Henüz rapor yok.</p>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Yeni raporlar burada görünecek.
-        </p>
-      </div>
-    ) : (
-      reports.map((report) => (
+  {error ? (
+    <div className="mt-8 rounded-xl border border-destructive/30 bg-destructive/10 p-6">
+      <p className="font-semibold">Raporlar yüklenemedi.</p>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Supabase rapor tablosu veya izinleri kontrol edilmeli.
+      </p>
+    </div>
+  ) : !reports || reports.length === 0 ? (
+    <div className="mt-8 rounded-xl border border-border p-8 text-center">
+      <p className="font-medium">Henüz rapor yok.</p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Yeni raporlar burada görünecek.
+      </p>
+    </div>
+  ) : (
+    <div className="mt-8 space-y-4">
+      {reports.map((report) => (
         <div
           key={report.id}
           className="rounded-xl border border-border bg-card p-5"
@@ -114,43 +70,33 @@ return ( <main className="mx-auto w-full max-w-5xl px-4 py-8"> <h1 className="te
             {new Date(report.created_at).toLocaleString("tr-TR")}
           </p>
 
-          <div className="mt-4 flex flex-wrap gap-2">
-            {report.status === "open" && (
-              <button
-                onClick={() => updateStatus(report.id, "reviewed")}
-                disabled={busy === report.id}
-                className="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-accent disabled:opacity-50"
+          <div className="mt-4">
+            {report.target_type === "user" && report.target_user_id ? (
+              <Link
+                href={`/profile/${report.target_user_id}`}
+                className="inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90"
               >
-                {busy === report.id ? "İşleniyor..." : "İncelendi olarak işaretle"}
-              </button>
-            )}
-
-            {report.status !== "resolved" && (
-              <button
-                onClick={() => updateStatus(report.id, "resolved")}
-                disabled={busy === report.id}
-                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
+                Aç
+              </Link>
+            ) : report.target_type === "post" && report.target_post_id ? (
+              <Link
+                href={`/post/${report.target_post_id}`}
+                className="inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90"
               >
-                {busy === report.id ? "İşleniyor..." : "Çözüldü"}
-              </button>
-            )}
-
-            {report.status !== "open" && (
-              <button
-                onClick={() => updateStatus(report.id, "open")}
-                disabled={busy === report.id}
-                className="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-accent disabled:opacity-50"
-              >
-                Tekrar aç
-              </button>
+                Aç
+              </Link>
+            ) : (
+              <span className="text-sm text-muted-foreground">
+                Açılacak içerik bulunamadı.
+              </span>
             )}
           </div>
         </div>
-      ))
-    )}
-  </div>
+      ))}
+    </div>
+  )}
 </main>
-
+```
 
 )
 }
