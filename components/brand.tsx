@@ -1,4 +1,4 @@
-import { BadgeCheck } from 'lucide-react'
+import { BadgeCheck, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function Logo({ className }: { className?: string }) {
@@ -20,6 +20,21 @@ export function VerifiedBadge({ className }: { className?: string }) {
       aria-label="Onaylı hesap"
       className={cn('size-4 text-[var(--verified)]', className)}
     />
+  )
+}
+
+export function PremiumLabel({ className }: { className?: string }) {
+  return (
+    <span
+      aria-label="Premium"
+      className={cn(
+        'inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-bold leading-none text-amber-500 ring-1 ring-amber-400/50',
+        className,
+      )}
+    >
+      <Star className="size-3 fill-current" />
+      premium
+    </span>
   )
 }
 
