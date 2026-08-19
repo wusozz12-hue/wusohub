@@ -6,6 +6,8 @@ export type Profile = {
   avatar_url: string | null
   is_verified: boolean
   is_founder: boolean
+  is_premium: boolean
+  premium_until: string | null
   is_muted: boolean
   is_suspended: boolean
   is_disabled: boolean
