@@ -1,23 +1,23 @@
-'use client'
+```tsx
+"use client"
 
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
 import {
   Home,
   Search,
   PlusSquare,
   User as UserIcon,
   Settings,
-  Shield,
   Flag,
   LogOut,
   AlertTriangle,
-} from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
-import { cn } from '@/lib/utils'
-import { Logo } from '@/components/brand'
-import { Avatar, UserName } from '@/components/user-bits'
-import type { CurrentProfile } from '@/lib/types'
+} from "lucide-react"
+import { createClient } from "@/lib/supabase/client"
+import { cn } from "@/lib/utils"
+import { Logo } from "@/components/brand"
+import { Avatar, UserName } from "@/components/user-bits"
+import type { CurrentProfile } from "@/lib/types"
 
 type NavItem = {
   href: string
@@ -37,33 +37,56 @@ export function AppShell({
   const router = useRouter()
 
   const items: NavItem[] = [
-    { href: '/', label: 'Akış', icon: Home, active: (p) => p === '/' },
-    { href: '/search', label: 'Ara', icon: Search, active: (p) => p.startsWith('/search') },
-    { href: '/create', label: 'Paylaş', icon: PlusSquare, active: (p) => p.startsWith('/create') },
+    {
+      href: "/",
+      label: "Akış",
+      icon: Home,
+      active: (p) => p === "/",
+    },
+    {
+      href: "/search",
+      label: "Ara",
+      icon: Search,
+      active: (p) => p.startsWith("/search"),
+    },
+    {
+      href: "/create",
+      label: "Paylaş",
+      icon: PlusSquare,
+      active: (p) => p.startsWith("/create"),
+    },
     {
       href: `/profile/${profile.username}`,
-      label: 'Profil',
+      label: "Profil",
       icon: UserIcon,
-      active: (p) => p.startsWith('/profile'),
+      active: (p) => p.startsWith("/profile"),
     },
-    { href: '/settings', label: 'Ayarlar', icon: Settings, active: (p) => p.startsWith('/settings') },
+    {
+      href: "/settings",
+      label: "Ayarlar",
+      icon: Settings,
+      active: (p) => p.startsWith("/settings"),
+    },
   ]
 
   const founderItems: NavItem[] = profile.is_founder
     ? [
-        { href: '/admin', label: 'Yönetim', icon: Shield, active: (p) => p.startsWith('/admin') },
-        { href: '/reports', label: 'Raporlar', icon: Flag, active: (p) => p.startsWith('/reports') },
+        {
+          href: "/reports",
+          label: "Raporlar",
+          icon: Flag,
+          active: (p) => p.startsWith("/reports"),
+        },
       ]
     : []
 
   async function signOut() {
     const supabase = createClient()
     await supabase.auth.signOut()
-    router.push('/auth/login')
+    router.push("/auth/login")
     router.refresh()
   }
 
-  // Mobile bottom-nav uses a compact subset.
   const mobileItems = [
     items[0],
     items[1],
@@ -79,24 +102,37 @@ export function AppShell({
         <Link href="/" className="mb-4 px-2">
           <Logo />
         </Link>
+
         <nav className="flex flex-col gap-1">
           {[...items, ...founderItems].map((item) => (
-            <NavLink key={item.href} item={item} active={item.active(pathname)} />
+            <NavLink
+              key={item.href}
+              item={item}
+              active={item.active(pathname)}
+            />
           ))}
         </nav>
+
         <div className="mt-auto flex flex-col gap-2">
           <Link
             href={`/profile/${profile.username}`}
             className="flex items-center gap-3 rounded-xl border border-border bg-card p-2.5 transition-colors hover:bg-accent"
           >
             <Avatar profile={profile} size="sm" />
+
             <span className="min-w-0 flex-1">
-              <UserName profile={profile} withLink={false} className="text-sm" />
+              <UserName
+                profile={profile}
+                withLink={false}
+                className="text-sm"
+              />
+
               <span className="block truncate text-xs text-muted-foreground">
                 @{profile.username}
               </span>
             </span>
           </Link>
+
           <button
             onClick={signOut}
             className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
@@ -114,6 +150,7 @@ export function AppShell({
           <Link href="/">
             <Logo />
           </Link>
+
           <button
             onClick={signOut}
             aria-label="Çıkış yap"
@@ -126,6 +163,7 @@ export function AppShell({
         {profile.is_suspended && (
           <div className="flex items-start gap-3 border-b border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
             <AlertTriangle className="mt-0.5 size-4 shrink-0" />
+
             <p>
               Hesabınız askıya alındı. İçerik paylaşamaz, yorum yapamaz,
               beğeni bırakamaz veya kullanıcı takip edemezsiniz. İçerikleri
@@ -134,7 +172,9 @@ export function AppShell({
           </div>
         )}
 
-        <main className="flex-1 pb-20 md:pb-8">{children}</main>
+        <main className="flex-1 pb-20 md:pb-8">
+          {children}
+        </main>
       </div>
 
       {/* Mobile bottom nav */}
@@ -142,13 +182,16 @@ export function AppShell({
         {mobileItems.map((item) => {
           const Icon = item.icon
           const active = item.active(pathname)
+
           return (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                'flex flex-col items-center gap-0.5 rounded-lg px-3 py-1.5 text-[10px]',
-                active ? 'text-primary' : 'text-muted-foreground',
+                "flex flex-col items-center gap-0.5 rounded-lg px-3 py-1.5 text-[10px]",
+                active
+                  ? "text-primary"
+                  : "text-muted-foreground",
               )}
             >
               <Icon className="size-5" />
@@ -161,16 +204,23 @@ export function AppShell({
   )
 }
 
-function NavLink({ item, active }: { item: NavItem; active: boolean }) {
+function NavLink({
+  item,
+  active,
+}: {
+  item: NavItem
+  active: boolean
+}) {
   const Icon = item.icon
+
   return (
     <Link
       href={item.href}
       className={cn(
-        'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
+        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
         active
-          ? 'bg-primary/15 text-primary'
-          : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+          ? "bg-primary/15 text-primary"
+          : "text-muted-foreground hover:bg-accent hover:text-foreground",
       )}
     >
       <Icon className="size-5" />
@@ -178,3 +228,4 @@ function NavLink({ item, active }: { item: NavItem; active: boolean }) {
     </Link>
   )
 }
+```
