@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
-const QUERIES = ['funny', 'scary', 'unexpected']
-const TARGET_PER_QUERY = 40
+const QUERIES = ['funny', 'scary', 'horror', 'unexpected', 'prank']
+const TARGET_PER_QUERY = 30
 
 export async function GET() {
   const apiKey = process.env.PEXELS_API_KEY
