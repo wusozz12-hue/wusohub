@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { PenSquare, Video, Play } from 'lucide-react'
+import { PenSquare, Video } from 'lucide-react'
 import { getCurrentProfile } from '@/lib/server-data'
 import { getFeed } from '@/lib/queries'
 import { PostCard } from '@/components/post-card'
 import { TrendsSidebar } from '@/components/trends-sidebar'
+import { FeaturedVideoFeed } from '@/components/featured-video-feed'
 import { cn } from '@/lib/utils'
 
 const communityProfiles = [
@@ -14,12 +15,6 @@ const communityProfiles = [
   { name: 'Ece Yılmaz', username: '@eceyilmaz', followers: '125K', avatar: 'https://i.pravatar.cc/120?img=32' },
   { name: 'Arda Tech', username: '@ardatech', followers: '31.2K', avatar: 'https://i.pravatar.cc/120?img=68' },
   { name: 'Nova', username: '@nova', followers: '5.6K', avatar: null },
-]
-
-const featuredVideos = [
-  { title: 'Bugünün keşfet videosu', author: 'Lina Demir', username: '@linademir', avatar: 'https://i.pravatar.cc/80?img=47', src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
-  { title: 'Teknoloji dünyasından kısa video', author: 'Arda Tech', username: '@ardatech', avatar: 'https://i.pravatar.cc/80?img=68', src: 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4' },
-  { title: 'WusoHub keşfet', author: 'DarkWave', username: '@darkwave', avatar: null, src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
 ]
 
 export default async function HomePage({ searchParams }: { searchParams: Promise<{ sort?: string }> }) {
@@ -54,35 +49,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
           <SortTab label="Popüler" href="/?sort=popular" active={activeSort === 'popular'} />
         </div>
 
-        <section className="border-b border-border px-4 py-5">
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-bold">En iyi videolar</h2>
-              <p className="text-xs text-muted-foreground">Videolar aşağı doğru sıralanır</p>
-            </div>
-            <Video className="size-5 text-muted-foreground" />
-          </div>
-
-          <div className="space-y-6">
-            {featuredVideos.map((video) => (
-              <article key={video.title} className="overflow-hidden rounded-2xl border border-border bg-card">
-                <div className="relative aspect-video bg-black">
-                  <video className="h-full w-full object-contain" src={video.src} controls playsInline preload="metadata" />
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center gap-3">
-                    {video.avatar ? <img src={video.avatar} alt="" className="size-10 rounded-full object-cover" /> : <div className="size-10 rounded-full bg-black" />}
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold">{video.author}</p>
-                      <p className="truncate text-xs text-muted-foreground">{video.username}</p>
-                    </div>
-                  </div>
-                  <p className="mt-3 text-sm">{video.title}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+        <FeaturedVideoFeed />
 
         {posts.length === 0 ? (
           <>
