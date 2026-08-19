@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { PenSquare, Video, Play, MessageCircle } from 'lucide-react'
+import { PenSquare, Video, Play } from 'lucide-react'
 import { getCurrentProfile } from '@/lib/server-data'
 import { getFeed } from '@/lib/queries'
 import { PostCard } from '@/components/post-card'
@@ -17,9 +17,9 @@ const communityProfiles = [
 ]
 
 const featuredVideos = [
-  { title: 'Bugünün keşfet videosu', author: 'Lina Demir', username: '@linademir', avatar: 'https://i.pravatar.cc/80?img=47', src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', replies: ['Bunu daha önce görmemiştim 😄', 'Gayet iyi olmuş.'] },
-  { title: 'Teknoloji dünyasından kısa video', author: 'Arda Tech', username: '@ardatech', avatar: 'https://i.pravatar.cc/80?img=68', src: 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4', replies: ['Teknoloji içerikleri daha fazla gelsin.', 'Bunu kaydettim 🔥'] },
-  { title: 'WusoHub keşfet', author: 'DarkWave', username: '@darkwave', avatar: null, src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', replies: ['Keşfet güzel gidiyor.', 'Benim ana sayfada da çıktı.'] },
+  { title: 'Bugünün keşfet videosu', author: 'Lina Demir', username: '@linademir', avatar: 'https://i.pravatar.cc/80?img=47', src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
+  { title: 'Teknoloji dünyasından kısa video', author: 'Arda Tech', username: '@ardatech', avatar: 'https://i.pravatar.cc/80?img=68', src: 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4' },
+  { title: 'WusoHub keşfet', author: 'DarkWave', username: '@darkwave', avatar: null, src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
 ]
 
 export default async function HomePage({ searchParams }: { searchParams: Promise<{ sort?: string }> }) {
@@ -58,19 +58,16 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
           <div className="mb-4 flex items-center justify-between">
             <div>
               <h2 className="text-lg font-bold">En iyi videolar</h2>
-              <p className="text-xs text-muted-foreground">Videoları aşağı doğru kaydır</p>
+              <p className="text-xs text-muted-foreground">Videolar aşağı doğru sıralanır</p>
             </div>
             <Video className="size-5 text-muted-foreground" />
           </div>
 
-          <div className="space-y-5">
+          <div className="space-y-6">
             {featuredVideos.map((video) => (
               <article key={video.title} className="overflow-hidden rounded-2xl border border-border bg-card">
                 <div className="relative aspect-video bg-black">
                   <video className="h-full w-full object-contain" src={video.src} controls playsInline preload="metadata" />
-                  <div className="pointer-events-none absolute bottom-3 left-3 flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
-                    <Play className="size-3 fill-current" /> Video
-                  </div>
                 </div>
                 <div className="p-4">
                   <div className="flex items-center gap-3">
@@ -81,17 +78,6 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
                     </div>
                   </div>
                   <p className="mt-3 text-sm">{video.title}</p>
-                  <div className="mt-4 space-y-2">
-                    {video.replies.map((reply, index) => (
-                      <div key={reply} className="flex items-start gap-2 rounded-xl bg-muted/50 p-3 text-sm">
-                        {index === 0 && video.avatar ? <img src={video.avatar} alt="" className="size-7 rounded-full object-cover" /> : <div className="size-7 shrink-0 rounded-full bg-black" />}
-                        <p><span className="font-semibold">{index === 0 ? video.author : 'Mert Kaya'}</span> {reply}</p>
-                      </div>
-                    ))}
-                    <button type="button" className="inline-flex items-center gap-1.5 pt-1 text-xs font-medium text-muted-foreground hover:text-foreground">
-                      <MessageCircle className="size-3.5" /> Yanıtla
-                    </button>
-                  </div>
                 </div>
               </article>
             ))}
