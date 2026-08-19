@@ -8,7 +8,6 @@ import {
   PlusSquare,
   User as UserIcon,
   Settings,
-  Shield,
   Flag,
   LogOut,
   AlertTriangle,
@@ -183,9 +182,7 @@ export function AppShell({
               href={item.href}
               className={cn(
                 'flex flex-col items-center gap-0.5 rounded-lg px-3 py-1.5 text-[10px]',
-                active
-                  ? 'text-primary'
-                  : 'text-muted-foreground',
+                active ? 'text-primary' : 'text-muted-foreground',
               )}
             >
               <Icon className="size-5" />
