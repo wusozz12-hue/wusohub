@@ -1,4 +1,3 @@
-```tsx
 import Link from "next/link"
 import { notFound, redirect } from "next/navigation"
 import { CalendarDays, Pencil } from "lucide-react"
