@@ -106,7 +106,7 @@ export default async function ProfilePage({
 
         <div className="mt-3 flex gap-5 text-sm">
           <span><strong className="text-foreground">{formatCount(stats.following)}</strong> <span className="text-muted-foreground">Takip</span></span>
-          <span><strong className="text-foreground">1M</strong> <span className="text-muted-foreground">Takipçi</span></span>
+          <span><strong className="text-foreground">{profile.is_founder ? "1M" : formatCount(stats.followers)}</strong> <span className="text-muted-foreground">Takipçi</span></span>
         </div>
       </div>
 
