@@ -52,7 +52,7 @@ export default async function PremiumPage() {
             </div>
           ) : (
             <div className="rounded-xl bg-primary px-6 py-3 text-center font-semibold text-primary-foreground">
-              Ödeme sistemi bağlantısı bekleniyor
+              Yakında geliyor
             </div>
           )}
         </div>
