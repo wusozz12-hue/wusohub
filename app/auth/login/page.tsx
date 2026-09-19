@@ -93,6 +93,11 @@ export default function LoginPage() {
               Giriş yap
             </Button>
           </form>
+          <div className="mt-4 text-center">
+            <Link href="/auth/forgot-password" className="text-sm font-medium text-primary hover:underline">
+              Şifremi unuttum
+            </Link>
+          </div>
           <p className="mt-6 text-center text-sm text-muted-foreground">
             Hesabınız yok mu?{' '}
             <Link href="/auth/register" className="font-medium text-primary hover:underline">
